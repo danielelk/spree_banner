@@ -1,0 +1,16 @@
+<div id="banner_boxes_menu_container" class="row">
+	<div class="col-md-9 col-sm-9">
+		<% %w[logos compra narrow lateral landing marcas].each do |cat| %>
+			<%= link_to cat, admin_banner_boxes_url(category:cat), class:(params[:category] == cat ? 'btn btn-primary active' : 'btn btn-primary') %>
+		<% end %>
+	</div>
+	
+	<div class="col-md-3 col-sm-3">
+		<%= form_for admin_banner_boxes_path, :method => 'get' do %>
+			<%= hidden_field_tag :category, params[:category] %>
+			<div class="field_container">
+				<%= label_tag :enabled, "Show only enabled?" %><%= check_box_tag :enabled, '1', params[:enabled] %>
+			</div>
+		<% end %>
+	</div>
+</div>
