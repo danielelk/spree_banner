@@ -5,7 +5,7 @@ pt-BR:
   clone: Copiar
   thumbnail: Miniatura
   images_only: "Apenas JPG, JPEG, PNG ou GIF"
-  banner_box_settings: Configurações
+  banner_box_settings: Configuração de Banners
   add_new_banner_style: "Adicionar novo estilo de banner"
   banner_box_settings_warning: "You will need to regenerate thumbnails if you update the paperclip styles. Use rake paperclip:refresh:thumbnails CLASS=Spree::Banner to do this."
   banner_settings_description: "Banner Settings Description"
