@@ -3,20 +3,14 @@
 <% end %>
 
 <% content_for :page_actions do %>
-	<div class="toolbar" data-hook="toolbar">
-		<ul class="actions header-action-links inline-menu">
-			<li id="new_banner_box_link">
-				<%= button_link_to t(:new_banner_box), new_object_url, { :remote => true, :icon => 'icon-plus', :id => 'admin_new_banner_box' } %>
-			</li>
-		</ul>
-	</div>
+	<%= button_link_to t(:new_banner_box), new_object_url, { :remote => true, :id => 'admin_new_banner_box', class: "btn-success", icon: 'add' } %>
 <% end %>
 
-<%= render :partial => 'spree/admin/shared/banner_box_sub_menu' %>
+<%= render :partial => 'spree/admin/shared/banner_box_sub_menu', :locals => { current: :banner_index } %>
 
 <div id="new_banner_box" data-hook></div>
 
-<%= render :partial => 'tabs' %>
+<%= render :partial => 'tabs' if false %>
 
 <% if @collection.any? %>
 <div class="table-responsive">
@@ -28,8 +22,8 @@
 				<th><%= t(:enabled) %></th>
 				<th><%= t(:url) %></th>
 				<th data-hook="admin_products_index_header_actions" class="actions"></th>
-			</tr>  
-		</thead>  
+			</tr>
+		</thead>
 		<tbody>
 			<% @collection.each do |banner_box| %>
 			<tr id="<%= spree_dom_id banner_box %>" data-hook="admin_banner_boxes_index_rows" class="<%= cycle('odd', 'even') %>">
@@ -39,7 +33,7 @@
 				<td class="text-center"><%= truncate(banner_box.url, :length => 50) %></td>
 				<td class="text-center actions" data-hook="admin_products_index_row_actions">
 					<%= link_to_edit banner_box, :no_text => true, :class => 'edit' %>
-					&nbsp;		
+					&nbsp;
 					<%= link_to_with_icon 'icon icon-file', '', clone_admin_banner_box_url(banner_box), :no_text => true, :class => 'clone btn btn-info btn-sm' %>
 		            &nbsp;
 					<%= link_to_delete banner_box, :no_text => true %>
