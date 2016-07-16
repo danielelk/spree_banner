@@ -53,5 +53,9 @@ module Spree
       self.attachment_width = geometry.width
       self.attachment_height = geometry.height
     end
+
+    def set_list_position(i)
+      update_column(:position, i)
+    end
   end
 end

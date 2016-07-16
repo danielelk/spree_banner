@@ -4,7 +4,7 @@
 			<%= link_to cat, admin_banner_boxes_url(category:cat), class:(params[:category] == cat ? 'btn btn-primary active' : 'btn btn-primary') %>
 		<% end %>
 	</div>
-	
+
 	<div class="col-md-3 col-sm-3">
 		<%= form_for admin_banner_boxes_path, :method => 'get' do %>
 			<%= hidden_field_tag :category, params[:category] %>
