@@ -38,9 +38,9 @@ module Spree
 
       def update_paperclip_settings
         Spree::BannerBox.attachment_definitions[:attachment][:styles] = ActiveSupport::JSON.decode(Spree::Config[:banner_styles]).symbolize_keys!
-        Spree::BannerBox.attachment_definitions[:attachment][:path] = Spree::Config[:banner_path]
-        Spree::BannerBox.attachment_definitions[:attachment][:default_url] = Spree::Config[:banner_default_url]
-        Spree::BannerBox.attachment_definitions[:attachment][:default_style] = Spree::Config[:banner_default_style]
+        # Spree::BannerBox.attachment_definitions[:attachment][:path] = Spree::Config[:banner_path]
+        # Spree::BannerBox.attachment_definitions[:attachment][:default_url] = Spree::Config[:banner_default_url]
+        # Spree::BannerBox.attachment_definitions[:attachment][:default_style] = Spree::Config[:banner_default_style]
       end
     end
   end

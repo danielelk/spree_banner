@@ -13,7 +13,7 @@ module Spree
                       s3_protocol:  "https",
                       s3_region: ENV['S3_REGION'],
                       bucket: ENV['S3_BUCKET'],
-                      styles: { mini:'192x64#', default:'1000x135>', logo:'250x71#', minibanner:'269x196#', banner_marca: '327x260#', banners_slider_home:'1362x440#', banners_home:'333x143#', banners_marcas:'1000x100#', banner_cupom:'1000x60#', banner_cupom_mobile:'260x57#' },
+                      # styles: { mini:'192x64#', default:'1000x135>', logo:'250x71#', minibanner:'269x196#', banner_marca: '327x260#', banners_slider_home:'1362x440#', banners_home:'327x260#', banners_marcas:'1000x100#', banner_cupom:'1000x60#', banner_cupom_mobile:'260x57#' },
                       default_style: :default,
                       url: ":s3_alias_url",
                       path: "/banners/:id/:style/:basename.:extension",
@@ -33,7 +33,7 @@ module Spree
     scope :enable, -> (category) { where(:enabled => true, :category => category) }
 
     # Load user defined paperclip settings
-    # Spree::BannerBox.attachment_definitions[:attachment][:styles] = ActiveSupport::JSON.decode(Spree::Config[:banner_styles]).symbolize_keys!
+    Spree::BannerBox.attachment_definitions[:attachment][:styles] = ActiveSupport::JSON.decode(Spree::Config[:banner_styles]).symbolize_keys!
     # Spree::BannerBox.attachment_definitions[:attachment][:path] = Spree::Config[:banner_path]
     # Spree::BannerBox.attachment_definitions[:attachment][:url] = Spree::Config[:banner_url]
     # Spree::BannerBox.attachment_definitions[:attachment][:default_url] = Spree::Config[:banner_default_url]
