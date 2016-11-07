@@ -7,7 +7,11 @@ module Spree
     #                     :convert_options => { :all => '-strip -auto-orient' }
 
         has_attached_file :attachment,
-                      s3_credentials: { access_key_id:  ENV['S3_ACCESS_KEY'], secret_access_key: ENV['S3_SECRET'], bucket: ENV['S3_BUCKET'] },
+                      s3_credentials: {
+                        access_key_id:  ENV['S3_ACCESS_KEY'],
+                        secret_access_key: ENV['S3_SECRET'],
+                        bucket: ENV['S3_BUCKET']
+                      },
                       storage: :s3,
                       s3_headers: { "Cache-Control" => 1.year.from_now.httpdate },
                       s3_protocol:  "https",
@@ -18,7 +22,7 @@ module Spree
                       url: ":s3_alias_url",
                       path: "/banners/:id/:style/:basename.:extension",
                       default_url:  "/banners/:id/:style/:basename.:extension",
-                      s3_host_alias: "s3-sa-east-1.amazonaws.com",
+                      s3_host_alias: Proc.new {|attachment| "cdn#{attachment.instance.id % 4}.retroca.com.br" }
                       convert_options: { all: '-strip -auto-orient -colorspace sRGB' }
 
     # save the w,h of the original image (from which others can be calculated)
