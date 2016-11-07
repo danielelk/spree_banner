@@ -2,7 +2,7 @@
 module Spree
   module BannerBoxesHelper
     
-    def banner_image_tag(banner,ga_event,params={})
+    def banner_image_tag(banner, ga_event, params={})
       link_to(image_tag(banner.attachment.url(params[:style].to_sym), alt: banner.presentation), (banner.url.blank? ? "javascript:void(0)" : banner.url), target: (banner.target_blank? ? "_blank" : ""), onClick: ga_event)
     end
         
@@ -34,19 +34,23 @@ module Spree
       params[:category] ||= "home"
       params[:ul_class] ||= "bxslider-home"
       params[:li_class] ||= "clearfix"
-      #params[:div_class] ||= "slide-image"
       params[:style] ||= Spree::Config[:banner_default_style]
+
       @@banner = Spree::BannerBox.enable(params[:category])
-      if @@banner.blank?
-        return ''
-      end
-      res = []
+
+      return '' if @@banner.blank?
+
+      ga_event = "ga('send', 'event', { eventCategory: 'internal-promotion', eventAction: 'clicked', eventLabel: 'GA_EVENTO'});" unless params[:ga_event].blank?
+
       banner = @@banner.sort_by { |ban| ban.position }
             
       content_tag :div, class: params[:ul_class] do 
-        banner.map do |ban| 
-          content_tag :div, class: params[:li_class] do 
-            link_to(image_tag(ban.attachment.url(params[:style].to_sym), alt: ban.presentation), (ban.url.blank? ? "javascript: void(0)" : ban.url), target: (ban.target_blank? ? "_blank" : ""))
+        banner.each_with_index.map do |ban, i|
+          ga_string = ""
+          ga_string = ga_event.gsub("GA_EVENTO", "#{params[:ga_event]}-#{i+1}") unless params[:ga_event].blank?
+
+          content_tag :div, class: params[:li_class] do
+            link_to(image_tag(ban.attachment.url(params[:style].to_sym), alt: ban.presentation), (ban.url.blank? ? "javascript: void(0)" : ban.url), target: (ban.target_blank? ? "_blank" : ""), onClick: ga_string.html_safe)
           end
         end.join().html_safe
       end  
@@ -82,22 +86,23 @@ module Spree
       params[:list] ||= false
       
       @@banner = Spree::BannerBox.enable(params[:category])
-          
-      if @@banner.blank?
-        return ''
-      end
-            
-      res = []
+
+      return '' if @@banner.blank?
+
       banner = @@banner.sort_by { |ban| ban.position }
-          
-      onClick_ga_event = "ga('send', 'event', { eventCategory: 'internal-promotion', eventAction: 'clicked', eventLabel: '#{params[:category]}'});"
-             
+
+      ga_event = "ga('send', 'event', { eventCategory: 'internal-promotion', eventAction: 'clicked', eventLabel: 'GA_EVENTO'});" unless params[:ga_event].blank?
+
       if (params[:list])
         content_tag :ul, :class => params[:class] do
-          banner.map{ |ban| content_tag(:li, banner_image_tag(ban,onClick_ga_event,params)) }.join().html_safe
+          banner.each_with_index.map{ |ban, i|
+            ga_string = ""
+            ga_string = ga_event.gsub("GA_EVENTO", "#{params[:ga_event]}-#{i+1}") unless params[:ga_event].blank?
+            content_tag(:li, banner_image_tag(ban, ga_string.html_safe, params))
+          }.join().html_safe
         end
       else
-        banner.map{|ban| content_tag(:li, banner_image_tag(ban,onClick_ga_event,params), :class => params[:class])}.join().html_safe
+        banner.each_with_index.map{ |ban, i| content_tag(:li, banner_image_tag(ban, "ga('send', 'event', { eventCategory: 'internal-promotion', eventAction: 'clicked', eventLabel: 'carousel-#{i+1}'});".html_safe, params), :class => params[:class])}.join().html_safe
       end
     end
     
