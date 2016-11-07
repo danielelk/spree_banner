@@ -18,7 +18,7 @@ module Spree
                       url: ":s3_alias_url",
                       path: "/banners/:id/:style/:basename.:extension",
                       default_url:  "/banners/:id/:style/:basename.:extension",
-                      s3_host_alias: Proc.new {|attachment| "assets#{attachment.instance.id % 4}.retroca.com.br" },
+                      s3_host_alias: "s3-sa-east-1.amazonaws.com",
                       convert_options: { all: '-strip -auto-orient -colorspace sRGB' }
 
     # save the w,h of the original image (from which others can be calculated)
